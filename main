@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>EDCLEFF TRADE | Products</title>
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body {
+font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+background: linear-gradient(135deg, #0b1a2e 0%, #1a3a4a 100%);
+min-height: 100vh;
+padding: 40px 20px;
+}
+
+.header {
+text-align: center;
+margin-bottom: 50px;
+}
+
+.header h1 {
+font-size: 42px;
+color: white;
+margin-bottom: 10px;
+}
+
+.header p {
+color: #94a3b8;
+font-size: 18px;
+}
+
+.products-grid {
+max-width: 1200px;
+margin: 0 auto;
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+gap: 30px;
+}
+
+.product-card {
+background: white;
+border-radius: 24px;
+padding: 30px;
+text-align: center;
+transition: transform 0.3s, box-shadow 0.3s;
+cursor: pointer;
+}
+
+.product-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.product-icon {
+font-size: 64px;
+margin-bottom: 20px;
+}
+
+.product-card h3 {
+font-size: 24px;
+color: #1a3c4a;
+margin-bottom: 10px;
+}
+
+.product-card p {
+color: #6b7f8f;
+margin-bottom: 20px;
+line-height: 1.5;
+}
+
+.price {
+font-size: 28px;
+font-weight: bold;
+color: #1f5e7e;
+margin-bottom: 20px;
+}
+
+.buy-btn {
+background: #1f5e7e;
+color: white;
+border: none;
+padding: 12px 30px;
+border-radius: 40px;
+font-size: 16px;
+font-weight: bold;
+cursor: pointer;
+transition: background 0.3s;
+}
+
+.buy-btn:hover {
+background: #0e4a64;
+}
+
+.footer {
+text-align: center;
+margin-top: 50px;
+padding-top: 30px;
+color: #94a3b8;
+font-size: 12px;
+}
+
+.logout-btn {
+position: fixed;
+top: 20px;
+right: 20px;
+background: rgba(255,255,255,0.2);
+color: white;
+border: 1px solid rgba(255,255,255,0.3);
+padding: 10px 20px;
+border-radius: 30px;
+cursor: pointer;
+font-size: 14px;
+backdrop-filter: blur(10px);
+}
+
+.logout-btn:hover {
+background: rgba(255,255,255,0.3);
+}
+
+@media (max-width: 768px) {
+.header h1 { font-size: 32px; }
+.products-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<button class="logout-btn" onclick="logout()"> Logout</button>
+
+<div class="header">
+<h1>✦ Welcome to EDCLEFF TRADE ✦</h1>
+<p>Premium Goods & Services</p>
+</div>
+
+<div class="products-grid">
+<!-- Product 1 -->
+<div class="product-card">
+<div class="product-icon"></div>
+<h3>Premium Smartphone</h3>
+<p>Latest model with advanced features, high-quality camera, and long battery life.</p>
+<div class="price">$599</div>
+<button class="buy-btn" onclick="orderProduct('Premium Smartphone')">Order Now</button>
+</div>
+
+<!-- Product 2 -->
+<div class="product-card">
+<div class="product-icon"></div>
+<h3>Ultrabook Laptop</h3>
+<p>Lightweight, powerful, perfect for business and entertainment.</p>
+<div class="price">$899</div>
+<button class="buy-btn" onclick="orderProduct('Ultrabook Laptop')">Order Now</button>
+</div>
+
+<!-- Product 3 -->
+<div class="product-card">
+<div class="product-icon"></div>
+<h3>Smart Watch</h3>
+<p>Track your fitness, receive notifications, and more.</p>
+<div class="price">$199</div>
+<button class="buy-btn" onclick="orderProduct('Smart Watch')">Order Now</button>
+</div>
+
+<!-- Product 4 -->
+<div class="product-card">
+<div class="product-icon"></div>
+<h3>Wireless Headphones</h3>
+<p>Noise-cancelling, crystal clear sound, comfortable fit.</p>
+<div class="price">$149</div>
+<button class="buy-btn" onclick="orderProduct('Wireless Headphones')">Order Now</button>
+</div>
+
+<!-- Product 5 -->
+<div class="product-card">
+<div class="product-icon"></div>
+<h3>Digital Camera</h3>
+<p>Capture memories in stunning 4K resolution.</p>
+<div class="price">$449</div>
+<button class="buy-btn" onclick="orderProduct('Digital Camera')">Order Now</button>
+</div>
+
+<!-- Product 6 -->
+<div class="product-card">
+<div class="product-icon"></div>
+<h3>Gaming Console</h3>
+<p>Next-gen gaming with exclusive titles.</p>
+<div class="price">$499</div>
+<button class="buy-btn" onclick="orderProduct('Gaming Console')">Order Now</button>
+</div>
+</div>
+
+<div class="footer">
+<p>© 2026 EDCLEFF TRADE - All Rights Reserved</p>
+<p> Secure Checkout | Fast Delivery | 24/7 Support</p>
+</div>
+
+<script>
+function orderProduct(productName) {
+alert(`Thank you for your interest in ${productName}!\n\nA representative will contact you shortly.`);
+}
+
+function logout() {
+window.location.href = '/';
+}
+</script>
+</body>
+</html>
